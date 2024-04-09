@@ -1,5 +1,6 @@
 module;
 
+#include <functional>
 #include <memory>
 #include <utility>
 
@@ -34,7 +35,7 @@ export namespace core::func {
         { }
 
         R call(ArgTypes... args) override {
-          return m_callable(args...);
+          return std::invoke(std::forward<Callable>(m_callable), std::forward<ArgTypes>(args)...);
         }
 
         Callable m_callable;
