@@ -4,6 +4,7 @@ target_sources(core
     FILE_SET CXX_MODULES FILES
       func/func.cppm
       func/function.cppm
+      refl/refl.cppm
 )
 
 add_library(mcpp::core ALIAS core)

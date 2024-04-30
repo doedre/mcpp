@@ -14,27 +14,27 @@ export namespace core::func {
   class function<R(ArgTypes...)> {
     public:
       template<typename FunctionObject>
-      function(FunctionObject fobj) :
+      constexpr function(FunctionObject fobj) :
           m_callable { std::make_unique<callable<FunctionObject>>(std::move(fobj)) }
       { }
 
-      R operator()(ArgTypes... args) {
+      constexpr R operator()(ArgTypes... args) {
         return m_callable->call(args...);
       }
 
     private:
       struct callable_interface {
-        virtual R call(ArgTypes... args) = 0;
+        virtual constexpr R call(ArgTypes... args) = 0;
         virtual ~callable_interface() = default;
       };
 
       template<typename Callable>
       struct callable : callable_interface {
-        callable(Callable callable) :
+        constexpr callable(Callable callable) :
             m_callable { std::move(callable) }
         { }
 
-        R call(ArgTypes... args) override {
+        constexpr R call(ArgTypes... args) override {
           return std::invoke(std::forward<Callable>(m_callable), std::forward<ArgTypes>(args)...);
         }
 

@@ -4,7 +4,7 @@ import core.func;
 
 using namespace core;
 
-int add()
+constexpr int add()
 {
   return 10;
 }
@@ -30,6 +30,8 @@ auto main() -> int
   assert(fm(a) == 40);
   assert(fcm(a) == 50);
 
+//  constexpr func::function<int()> cfp { add };
+//  static_assert(cfp() == 10);
   return 0;
 }
 

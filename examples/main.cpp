@@ -1,6 +1,4 @@
-import core.func;
-
-using namespace core;
+#include <iostream>
 
 auto main() -> int
 {
