@@ -1,7 +1,7 @@
 import core.refl;
 
 #include <string_view>
-//#include <iostream>
+#include <iostream>
 
 using namespace core;
 
@@ -9,15 +9,23 @@ struct foo { };
 
 int func(int x, float y) { return 1; }
 
+void bar() { }
+
 auto lambda = [](int x, double y) { return 1; };
 
 int main()
 {
-  static_assert(refl::name_of(refl::type_of<void>) == "void");
-  static_assert(refl::name_of(refl::type_of<int>) == "int");
-  static_assert(refl::name_of(refl::type_of<const int>) == "const int");
-  static_assert(refl::name_of(refl::type_of<foo>) == "foo");
-  static_assert(refl::name_of(refl::type_of<decltype(func)>) == "int (int, float)");
+  static_assert(refl::name_of(refl::type<void>) == "void");
+  static_assert(refl::name_of(refl::type<int>) == "int");
+  static_assert(refl::name_of(refl::type<const int>) == "const int");
+  static_assert(refl::name_of(refl::type<foo>) == "foo");
+  static_assert(refl::name_of(refl::type<decltype(func)>) == "int (int, float)");
+
+  const int x = 10;
+  const int* px = &x;
+  static_assert(refl::name_of(refl::type_of(x)) == "const int");
+  static_assert(refl::name_of(refl::type_of(px)) == "const int *");
+  
   //static_assert(refl::name_of(refl::type_of<decltype(lambda)>) == "lambda");
 
   /*

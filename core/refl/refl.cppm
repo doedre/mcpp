@@ -23,30 +23,36 @@ namespace core::refl::impl {
   template<typename T>
   struct name_info {
     static constexpr auto name { func_name<T>() };
-    std::size_t begin { name.find("[Ts = <") + "[Ts = <"sv.size() };
-    std::size_t end { name.size() - 2 };
+    static constexpr auto begin { name.find("[Ts = <") + "[Ts = <"sv.size() };
+    static constexpr auto end { name.size() - 2 };
+
+    static_assert(begin <= end);
   };
 }
 
 export namespace core::refl {
   template<typename T>
-  struct type { };
+  struct type_of {
+    constexpr type_of() = default;
+    constexpr type_of(T&) { }
+  };
+
+  template<>
+  struct type_of<void> {
+    constexpr type_of() = default;
+  };
 
   template<typename T>
-  constexpr type<T> type_of { };
+  type_of(T&) -> type_of<T>;
 
   template<typename T>
-  consteval auto name_of(type<T> t) noexcept -> std::string_view
+  constexpr type_of<T> type { };
+
+  template<typename T>
+  [[nodiscard]] constexpr auto name_of(type_of<T> t) noexcept -> std::string_view
   {
     const auto info = impl::name_info<T>();
     return { info.name.data() + info.begin, info.end - info.begin };
   }
-
-  template<typename T>
-  struct type_info {
-    using type = T;
-
-    std::string_view name { name_of(type_of<T>) };
-  };
 } // namespace core::refl
 
