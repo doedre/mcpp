@@ -5,7 +5,10 @@ import core.refl;
 
 using namespace core;
 
-struct foo { };
+struct foo {
+  int a;
+  int b;
+};
 
 int func(int x, float y) { return 1; }
 
@@ -28,6 +31,9 @@ int main()
   
   //static_assert(refl::name_of(refl::type_of<decltype(lambda)>) == "lambda");
 
+  //std::cerr << refl::impl::func_name<refl::impl::ref{refl::impl::extern_<foo>}>() << std::endl;
+  std::cerr << refl::name_of_first_member(refl::type<foo>) << std::endl;
+  return 1;
   /*
   //static_assert(refl::name_of(refl::type_of<int>) == "int");
   std::cerr << refl::name_of(refl::type_of<int>) << std::endl;
